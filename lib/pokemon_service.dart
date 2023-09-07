@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
+//import 'package:dio/dio.dart';
 
 import 'pokemon_model.dart';
 
 class PokemonService {
-  
-  final dio = Dio();
+  // final dio = Dio();
   Future<List<Pokemon>> fetchAll() async {
     await Future.delayed(const Duration(seconds: 2));
 

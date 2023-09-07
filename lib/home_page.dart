@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:example_state_management_raiz/pokemon_service.dart';
+import 'package:example_state_management_raiz/pokemon_state.dart';
 import 'package:flutter/material.dart';
-import 'pokemon_model.dart';
+import 'pokemon_controller.dart';
 
 /// principios do gerenciamento de estado
 /// 1. o estado é uma variavel que represeta o estado
@@ -10,72 +11,53 @@ import 'pokemon_model.dart';
 /// 4. o estado é gerenciado pelo widget pai
 ///
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   final String title;
-  const MyHomePage({
+  MyHomePage({
     Key? key,
     required this.title,
   }) : super(key: key);
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   final service = PokemonService();
+
   // final store = PokemonController();
-  var isLoaading = false;
-  var error = '';
-  var pokemons = <Pokemon>[];
-
-  getPokemons() async {
-    setState(() {
-      isLoaading = true;
-      error = '';
-    });
-
-    try {
-      final pokemons = await service.fetchAll();
-      setState(() {
-        this.pokemons = pokemons;
-        isLoaading = false;
-      });
-    } catch (e) {
-      setState(() {
-        isLoaading = false;
-        error = e.toString();
-      });
-    }
-  }
+  final store = PokemonController();
 
   @override
   Widget build(BuildContext context) {
-    Widget body = Container();
-    if (isLoaading) {
-      body = const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (error.isNotEmpty) {
-      body = Center(child: ElevatedButton(onPressed: getPokemons, child: Text(error)));
-    } else if (pokemons.isEmpty) {
-      body = Center(child: ElevatedButton(onPressed: getPokemons, child: const Text('Toque Aqui!')));
-    } else {
-      body = ListView.builder(
-        itemCount: pokemons.length,
-        itemBuilder: (context, index) {
-          final pokemon = pokemons[index];
-          return ListTile(
-            title: Text(pokemon.name),
-          );
-        },
-      );
-    }
+    return ListenableBuilder(
+      listenable: store,
+      builder: (ccontext, child) {
+        Widget body = Container();
+        final state = store.state;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pokemon'),
-      ),
-      body: body,
+        if (state is LoadingPokemonState) {
+          body = const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is ErrorPokemonState) {
+          body = Center(child: ElevatedButton(onPressed: store.getPokemons, child: Text(state.message)));
+        } else if (state is EmptyPokemonState) {
+          body = Center(child: ElevatedButton(onPressed: store.getPokemons, child: const Text('Toque Aqui!')));
+        } else if (state is GettedPokemonState) {
+          body = ListView.builder(
+            itemCount: state.pokemons.length,
+            itemBuilder: (context, index) {
+              final pokemon = state.pokemons[index];
+              return ListTile(
+                title: Text(pokemon.name),
+              );
+            },
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: body,
+        );
+      },
     );
   }
 }

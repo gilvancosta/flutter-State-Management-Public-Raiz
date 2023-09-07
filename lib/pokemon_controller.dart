@@ -5,21 +5,21 @@ import 'pokemon_state.dart';
 class PokemonController extends ChangeNotifier {
   final service = PokemonService();
 
-  var state = PokemonsState.empty();
+  PokemonState  state   = EmptyPokemonState();
 
 
 
 
   getPokemons() async {
-    state = state.copyWith(error: '', isLoading: true);
+    state = LoadingPokemonState();
     notifyListeners();
 
     try {
       final pokemons = await service.fetchAll();
-      state = state.copyWith(isLoading: false, pokemons: pokemons);
+      state = GettedPokemonState(pokemons);
       notifyListeners();
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = ErrorPokemonState(e.toString());
 
       notifyListeners();
     }

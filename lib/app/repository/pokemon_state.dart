@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'pokemon_model.dart';
+import '../entities/pokemon/pokemon_model.dart';
 
 sealed class PokemonState {}
 

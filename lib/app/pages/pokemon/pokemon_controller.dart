@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'pokemon_service.dart';
-import 'pokemon_state.dart';
+import '../../services/pokemon_service.dart';
+import '../../repository/pokemon_state.dart';
 
 class PokemonController extends ChangeNotifier {
   final service = PokemonService();
 
-  PokemonState  state   = EmptyPokemonState();
+    PokemonState state   = EmptyPokemonState();
 
 
 

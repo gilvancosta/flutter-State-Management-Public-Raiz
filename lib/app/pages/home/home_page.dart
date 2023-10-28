@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:example_state_management_raiz/pokemon_service.dart';
-import 'package:example_state_management_raiz/pokemon_state.dart';
+
+import 'package:example_state_management_raiz/app/repository/pokemon_state.dart';
 import 'package:flutter/material.dart';
-import 'pokemon_controller.dart';
+import '../pokemon/pokemon_controller.dart';
 
 /// principios do gerenciamento de estado
-/// 1. o estado é uma variavel que represeta o estado
+/// 1. o estado é uma variavel que representa o estado
 /// 2. o estado é imutavel
 /// 3. registre o ouvinte para ser notificado quando o estado mudar
 /// 4. o estado é gerenciado pelo widget pai
@@ -18,7 +18,7 @@ class MyHomePage extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
-  final service = PokemonService();
+  //final service = PokemonService();
 
   // final store = PokemonController();
   final store = PokemonController();

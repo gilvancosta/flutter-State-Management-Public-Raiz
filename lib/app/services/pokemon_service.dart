@@ -1,6 +1,6 @@
 //import 'package:dio/dio.dart';
 
-import 'pokemon_model.dart';
+import '../entities/pokemon/pokemon_model.dart';
 
 class PokemonService {
   // final dio = Dio();

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:example_state_management_raiz/pokemon_service.dart';
+import 'package:example_state_management_raiz/app/services/pokemon_service.dart';
 import 'package:flutter/material.dart';
-import 'pokemon_model.dart';
+import '../entities/pokemon/pokemon_model.dart';
 
 /// principios do gerenciamento de estado
 /// 1. o estado é uma variavel que represeta o estado
